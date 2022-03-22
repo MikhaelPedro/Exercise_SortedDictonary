@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using Course.Entities;
+
 
 namespace Course
 {
@@ -9,9 +9,6 @@ namespace Course
     {
         static void Main(string[] args)
         {
-
-            Dictionary<string, int> cookies = new Dictionary<string, int>();
-
             Console.Write("Enter file full path: ");
             string path = Console.ReadLine();
 
@@ -19,24 +16,33 @@ namespace Course
             {
                 using (StreamReader sr = File.OpenText(path))
                 {
+                    Dictionary<string, int> dictionary = new Dictionary<string, int>();
+
                     while (!sr.EndOfStream)
                     {
-                        string[] line = sr.ReadLine().Split(' ');
-                        if (!cookies.ContainsKey(line[0]))
+                        string[] votingRecord = sr.ReadLine().Split(',');
+                        string candiadte = votingRecord[0];
+                        int votes = int.Parse(votingRecord[1]);
+
+                        if (dictionary.ContainsKey(candiadte))
                         {
-                            cookies.Add(line[0], int.Parse(line[1]));
+                            dictionary[candiadte] += votes;
                         }
                         else
                         {
-                            cookies.Add()
+                            dictionary[candiadte] = votes;
                         }
 
                     }
-                    //Console.WriteLine("Total users: " + set.Count);
+                    foreach(var item in dictionary)
+                    {
+                        Console.WriteLine(item.Key + ": " + item.Value);
+                    }
                 }
             }
             catch (IOException e)
             {
+                Console.WriteLine("An error occurred");
                 Console.WriteLine(e.Message);
             }
         }
